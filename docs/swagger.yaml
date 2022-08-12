@@ -148,7 +148,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PayRes'
-    PayAmount:
+    PayAmounts:
       type: object
       properties:
         Payer:
