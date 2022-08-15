@@ -5,7 +5,7 @@
 from chalice import Chalice
 
 # Original
-from pay import PayRecord, PayTable
+from chalicelib.pay import PayRecord, PayTable
 
 # -----------------------------------------------------------------------
 # 前処理
