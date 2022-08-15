@@ -11,6 +11,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      pull-requests: write
     strategy:
       matrix:
         dir: [infra/terraform/base, infra/terraform/dev]
@@ -47,24 +48,29 @@ jobs:
         working-directory: ${{ matrix.dir }}
         continue-on-error: true
 
-      - name: Comment
-        uses: actions/github-script@v3.0.0
+      - name: Update Pull Request
+        uses: actions/github-script@v6
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+         # github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `## \`${{ matrix.dir }}\`
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
-            \`\`\`${process.env.PLAN}\`\`\`
+            \`\`\`\n
+            ${process.env.PLAN}
+            \`\`\`
 
-            </details>`;
+            </details>
 
-            github.issues.createComment({
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
