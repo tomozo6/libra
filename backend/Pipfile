@@ -8,7 +8,6 @@ chalice = "*"
 
 [dev-packages]
 pytest = "*"
-moto = "*"
 boto3 = "*"
 freezegun = "*"
 pytest-cov = "*"
