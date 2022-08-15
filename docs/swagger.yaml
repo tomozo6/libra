@@ -80,13 +80,13 @@ paths:
                 $ref: '#/components/schemas/PayRecords'
         '400':
           description: Invalid status value
-  /pay/amounts/{payer}:
+  /pay/amount/{payer}:
     get:
       tags:
         - pay
       summary: 支払総額取得
       description: 指定されたPayerの支払い総額を取得します。
-      operationId: getPayAmountsByPayer
+      operationId: getPayAmountByPayer
       parameters:
         - name: payer
           in: path
@@ -100,21 +100,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayAmounts'
+                $ref: '#/components/schemas/PayAmount'
         '400':
           description: Invalid status value
 components:
   schemas:
     Pay:
       required:
-        - user
-        - amounts
+        - Payer
+        - Amount
       type: object
       properties:
         Payer:
           type: string
           example: tomozo
-        Amounts:
+        Amount:
           type: integer
           format: int64
           example: 1200
@@ -130,7 +130,7 @@ components:
         InputDate:
           type: string
           example: '2022-08-10 19:08:28.483283+09:00'
-        Amounts:
+        Amount:
           type: integer
           minimum: 1
           example: 1200
@@ -148,13 +148,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PayRes'
-    PayAmounts:
+    PayAmount:
       type: object
       properties:
         Payer:
           type: string
           example: tomozo
-        Amounts:
+        amount:
           type: integer
           minimum: 1
           example: 1200
