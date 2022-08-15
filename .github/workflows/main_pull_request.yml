@@ -8,6 +8,9 @@ jobs:
   terraform-plan:
     name: Plan
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       matrix:
         dir: [infra/terraform/base, infra/terraform/dev]
