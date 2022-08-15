@@ -1,0 +1,15 @@
+{
+  "version": "2.0",
+  "app_name": "libra-api",
+  "api_gateway_endpoint_type": "REGIONAL",
+  "stages": {
+    "dev": {
+      "api_gateway_custom_domain": {
+        "domain_name": "dev.libra.tomozo6.com",
+        "certificate_arn": "arn:aws:acm:ap-northeast-1:518773205675:certificate/76c1b9d0-04e4-4fa2-a6d0-4db6b526cd90",
+        "url_prefix": "api"
+      },
+      "api_gateway_stage": "api"
+    }
+  }
+}
