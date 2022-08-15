@@ -60,7 +60,6 @@ class PayTable():
 
         self.table = dynamodb.Table(table_name)
 
-
     def add_record(self, record: PayRecord) -> Response:
         """支払レコード登録
 

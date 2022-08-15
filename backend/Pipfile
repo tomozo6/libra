@@ -8,10 +8,10 @@ chalice = "*"
 
 [dev-packages]
 pytest = "*"
-moto = "*"
 boto3 = "*"
 freezegun = "*"
 pytest-cov = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.9"
