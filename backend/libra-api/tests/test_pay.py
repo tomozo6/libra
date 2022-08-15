@@ -5,7 +5,7 @@
 import freezegun
 
 # Original
-from pay import PayRecord, PayTable
+from chalicelib.pay import PayRecord, PayTable
 
 
 # -----------------------------------------------------------------------

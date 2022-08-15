@@ -9,7 +9,11 @@
         "certificate_arn": "arn:aws:acm:ap-northeast-1:518773205675:certificate/76c1b9d0-04e4-4fa2-a6d0-4db6b526cd90",
         "url_prefix": "api"
       },
-      "api_gateway_stage": "api"
+      "api_gateway_stage": "api",
+      "environment_variables": {
+        "PAY_TABLE_NAME": "libra-dev-dynamodb-table"
+      },
+      "autogen_policy": false
     }
   }
 }
