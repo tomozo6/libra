@@ -50,7 +50,12 @@ jobs:
         working-directory: backend/libra-api
         continue-on-error: true
         #run: pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-        run: pipenv run flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+        run: |
+          stdout=$(pipenv run flake8 . --count --max-complexity=10 --max-line-length=127 --statistics)
+          echo ${stdout}
+          # エスケープ処理
+          stdout="${stdout//$'\n'/\\n}"
+          echo "::set-output name=stdout::$stdout"
 
       - name: Test with pytest
         id: test
