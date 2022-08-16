@@ -5,10 +5,12 @@ on:
       - main
     paths:
       - 'infra/terraform/**'
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
-  terraform-plan:
-    name: Plan
+  terraform-cd:
+    name: Apply
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -16,7 +18,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        dir: [infra/terraform/base, infra/terraform/beta]
+        dir: [infra/terraform/base, infra/terraform/prod]
 
     steps:
       - name: Checkout
