@@ -40,13 +40,13 @@ jobs:
 
       # 致命的なエラー。workflowを止めます。
       - name: Lint with flake8(Error)
-        id: lint-err
+        id: linterr
         working-directory: backend/libra-api
         run: pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 #
       # 警告。workflowは止めません。(GitHub エディタの幅は 127 文字)
       - name: Lint with flake8(Warning)
-        id: lint-war
+        id: lintwar
         working-directory: backend/libra-api
         continue-on-error: true
         #run: pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
@@ -61,21 +61,21 @@ jobs:
       - name: Update Pull Request
         uses: actions/github-script@v6
         env:
-          LINT-ERR: "flake8-Error\n${{ steps.lint-err.outputs.stdout }}"
-          LINT-WAR: "flake8-Warning\n${{ steps.lint-war.outputs.stdout }}"
+          LINTERR: "flake8-Error\n${{ steps.linterr.outputs.stdout }}"
+          LINTWAR: "flake8-Warning\n${{ steps.lintwar.outputs.stdout }}"
           TEST: "pytest\n${{ steps.test.outputs.stdout }}"
         with:
           script: |
             const output = `## \`backend/libra-api\`
-            #### Python Lint Error 🖌\`${{ steps.lint-err.outcome }}\`
-            #### Python Lint Warning 🖌\`${{ steps.lint-war.outcome }}\`
+            #### Python Lint Error 🖌\`${{ steps.linterr.outcome }}\`
+            #### Python Lint Warning 🖌\`${{ steps.lintwar.outcome }}\`
             #### Python Test ⚙️\`${{ steps.test.outcome }}\`
 
             <details><summary>Show Result</summary>
 
             \`\`\`\n
-            ${process.env.LINT-ERR}
-            ${process.env.LINT-WAR}
+            ${process.env.LINTERR}
+            ${process.env.LINTWAR}
             \`\`\`
 
             \`\`\`\n
