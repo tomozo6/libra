@@ -20,6 +20,4 @@ locals {
     org  = "tomozo6"
     repo = "libra"
   }
-
-
 }
