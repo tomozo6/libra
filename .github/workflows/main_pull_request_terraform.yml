@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - infra/terraform
+      - 'infra/terraform/**'
 
 jobs:
   terraform-plan:
