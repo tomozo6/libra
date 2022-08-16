@@ -45,7 +45,7 @@ jobs:
         run: |
           stdout=$(pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics)
           echo ${stdout}
-          stdout="${stdout//$'\n'/\\n}"
+          stdout="${stdout//$'\n'/'%0A'}"
           echo "::set-output name=stdout::${stdout}"
 
       # 警告。workflowは止めません。(GitHub エディタの幅は 127 文字)
@@ -57,7 +57,7 @@ jobs:
         run: |
           stdout=$(pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics)
           echo ${stdout}
-          stdout="${stdout//$'\n'/\\n}"
+          stdout="${stdout//$'\n'/'%0A'}"
           echo "::set-output name=stdout::${stdout}"
 
       - name: Test with pytest
@@ -67,7 +67,7 @@ jobs:
         run: |
           stdout=$(pipenv run pytest -s -v --cov)
           echo ${stdout}
-          stdout="${stdout//$'\n'/\\n}"
+          stdout="${stdout//$'\n'/'%0A'}"
           echo "::set-output name=stdout::${stdout}"
 
       - name: Update Pull Request
