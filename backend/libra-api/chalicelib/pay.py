@@ -60,7 +60,6 @@ class PayTable():
 
         self.table = dynamodb.Table(table_name)
 
-
     def add_record(self, record: PayRecord) -> Response:
         """支払レコード登録
 
@@ -73,7 +72,7 @@ class PayTable():
         item = record.__dict__
 
         try:
-            res = self.table.put_item(
+            self.table.put_item(
                 Item=item,
                 ConditionExpression='attribute_not_exists(Payer) AND attribute_not_exists(InputDate)'
             )
@@ -86,21 +85,30 @@ class PayTable():
             #    )
             return Response(
                 body=record.__dict__,
-                headers=content_type_json,
+                headers={'Content-Type': 'application/json'},
                 status_code=200
             )
 
         except ClientError as e:
-            print(e)
             if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
                 return Response(
                     body={'message': 'レコードが重複しています。再度レコード登録を試してみてください。'},
-                    headers=content_type_json,
+                    headers={'Content-Type': 'application/json'},
                     status_code=409
                 )
 
+            return Response(
+                body={'message': e},
+                headers={'Content-Type': 'application/json'},
+                status_code=500
+            )
+
         except Exception as e:
-            print(e)
+            return Response(
+                body={'message': e},
+                headers={'Content-Type': 'application/json'},
+                status_code=500
+            )
 
     def get_amounts(self, payer: str) -> Response:
         """支払総額取得
@@ -122,6 +130,6 @@ class PayTable():
 
         return Response(
             body={'Payer': payer, 'Amounts': amounts},
-            headers=content_type_json,
+            headers={'Content-Type': 'application/json'},
             status_code=200
         )

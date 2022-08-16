@@ -20,7 +20,7 @@
                 "dynamodb:Scan",
                 "dynamodb:Query"
             ],
-            "Resource": "arn:aws:dynamodb:ap-northeast-1:518773205675:table/libra-dev-pay-dynamodb-table"
+            "Resource": "arn:aws:dynamodb:ap-northeast-1:518773205675:table/libra-beta-pay-dynamodb-table"
         }
     ]
 }
