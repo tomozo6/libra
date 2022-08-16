@@ -16,7 +16,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        dir: [infra/terraform/base, infra/terraform/dev]
+        dir: [infra/terraform/base, infra/terraform/beta, infra/terraform/prod]
 
     steps:
       - name: Checkout
@@ -55,7 +55,7 @@ jobs:
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
-         # github-token: ${{ secrets.GITHUB_TOKEN }}
+          # github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `## \`${{ matrix.dir }}\`
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
