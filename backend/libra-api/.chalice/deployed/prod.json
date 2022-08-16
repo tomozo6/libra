@@ -1,0 +1,37 @@
+{
+  "resources": [
+    {
+      "name": "api_handler_role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::518773205675:role/libra-api-prod-api_handler",
+      "role_name": "libra-api-prod-api_handler"
+    },
+    {
+      "name": "api_handler",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:ap-northeast-1:518773205675:function:libra-api-prod"
+    },
+    {
+      "name": "rest_api",
+      "resource_type": "rest_api",
+      "rest_api_id": "6q4uslnfu2",
+      "rest_api_url": "https://6q4uslnfu2.execute-api.ap-northeast-1.amazonaws.com/api/"
+    },
+    {
+      "name": "api_gateway_custom_domain",
+      "resource_type": "domain_name",
+      "hosted_zone_id": "Z1YSHQZHG15GKL",
+      "alias_domain_name": "d-3qwt91o0mb.execute-api.ap-northeast-1.amazonaws.com",
+      "certificate_arn": "arn:aws:acm:ap-northeast-1:518773205675:certificate/76c1b9d0-04e4-4fa2-a6d0-4db6b526cd90",
+      "security_policy": "TLS_1_2",
+      "domain_name": "www.libra.tomozo6.com",
+      "api_mapping": [
+        {
+          "key": "/api"
+        }
+      ]
+    }
+  ],
+  "schema_version": "2.0",
+  "backend": "api"
+}

@@ -26,8 +26,8 @@ jobs:
       - name: Setup Python 3.9
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
-          architecture: 'x64'
+          python-version: "3.9"
+          architecture: "x64"
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
 
@@ -40,42 +40,54 @@ jobs:
 
       # 致命的なエラー。workflowを止めます。
       - name: Lint with flake8(Error)
-        id: lint-err
+        id: linterr
         working-directory: backend/libra-api
-        run: pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-#
+        run: |
+          stdout=$(pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics)
+          echo ${stdout}
+          stdout="${stdout//$'\n'/'%0A'}"
+          echo "::set-output name=stdout::${stdout}"
+
       # 警告。workflowは止めません。(GitHub エディタの幅は 127 文字)
       - name: Lint with flake8(Warning)
-        id: lint-war
+        id: lintwar
         working-directory: backend/libra-api
         continue-on-error: true
         #run: pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-        run: pipenv run flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
+        run: |
+          stdout=$(pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics)
+          echo ${stdout}
+          stdout="${stdout//$'\n'/'%0A'}"
+          echo "::set-output name=stdout::${stdout}"
 
       - name: Test with pytest
         id: test
         working-directory: backend/libra-api/tests
         continue-on-error: true
-        run: pipenv run pytest -s -v --cov
+        run: |
+          stdout=$(pipenv run pytest -s -v --cov)
+          echo ${stdout}
+          stdout="${stdout//$'\n'/'%0A'}"
+          echo "::set-output name=stdout::${stdout}"
 
       - name: Update Pull Request
         uses: actions/github-script@v6
         env:
-          LINT-ERR: "flake8-Error\n${{ steps.lint-err.outputs.stdout }}"
-          LINT-WAR: "flake8-Warning\n${{ steps.lint-war.outputs.stdout }}"
+          LINTERR: "flake8-Error\n${{ steps.linterr.outputs.stdout }}"
+          LINTWAR: "flake8-Warning\n${{ steps.lintwar.outputs.stdout }}"
           TEST: "pytest\n${{ steps.test.outputs.stdout }}"
         with:
           script: |
             const output = `## \`backend/libra-api\`
-            #### Python Lint Error 🖌\`${{ steps.lint-err.outcome }}\`
-            #### Python Lint Warning 🖌\`${{ steps.lint-war.outcome }}\`
+            #### Python Lint Error 🖌\`${{ steps.linterr.outcome }}\`
+            #### Python Lint Warning 🖌\`${{ steps.lintwar.outcome }}\`
             #### Python Test ⚙️\`${{ steps.test.outcome }}\`
 
             <details><summary>Show Result</summary>
 
             \`\`\`\n
-            ${process.env.LINT-ERR}
-            ${process.env.LINT-WAR}
+            ${process.env.LINTERR}
+            ${process.env.LINTWAR}
             \`\`\`
 
             \`\`\`\n

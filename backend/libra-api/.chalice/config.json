@@ -23,7 +23,7 @@
       },
       "api_gateway_stage": "api",
       "environment_variables": {
-        "PAY_TABLE_NAME": "libra-dev-pay-dynamodb-table"
+        "PAY_TABLE_NAME": "libra-beta-pay-dynamodb-table"
       },
       "autogen_policy": false
     },
@@ -35,7 +35,7 @@
       },
       "api_gateway_stage": "api",
       "environment_variables": {
-        "PAY_TABLE_NAME": "libra-dev-pay-dynamodb-table"
+        "PAY_TABLE_NAME": "libra-prod-pay-dynamodb-table"
       },
       "autogen_policy": false
     }
