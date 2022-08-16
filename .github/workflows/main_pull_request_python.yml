@@ -1,4 +1,4 @@
-name: Backend CI
+name: Python CI
 on:
   pull_request:
     branches:
@@ -38,38 +38,44 @@ jobs:
           pip install pipenv
           pipenv install --dev
 
-      - name: Lint with flake8
-        id: lint
+      # 致命的なエラー。workflowを止めます。
+      - name: Lint with flake8(Error)
+        id: lint-err
+        working-directory: backend/libra-api
+        run: pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+#
+      # 警告。workflowは止めません。(GitHub エディタの幅は 127 文字)
+      - name: Lint with flake8(Warning)
+        id: lint-war
         working-directory: backend/libra-api
         continue-on-error: true
-        run: |
-          # stop the build if there are Python syntax errors or undefined names
-          pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero はすべてのエラーを警告として扱う。 GitHub エディタの幅は 127 文字
-          pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        #run: pipenv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        run: pipenv run flake8 . --count --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Test with pytest
         id: test
         working-directory: backend/libra-api/tests
         continue-on-error: true
-        run: |
-          pipenv run pytest -s -v --cov
+        run: pipenv run pytest -s -v --cov
 
       - name: Update Pull Request
         uses: actions/github-script@v6
         env:
-          LINT: "flake8\n${{ steps.lint.outputs.stdout }}"
+          LINT-ERR: "flake8-Error\n${{ steps.lint-err.outputs.stdout }}"
+          LINT-WAR: "flake8-Warning\n${{ steps.lint-war.outputs.stdout }}"
           TEST: "pytest\n${{ steps.test.outputs.stdout }}"
         with:
           script: |
             const output = `## \`backend/libra-api\`
-            #### Python Format and Style 🖌\`${{ steps.lint.outcome }}\`
+            #### Python Lint Error 🖌\`${{ steps.lint-err.outcome }}\`
+            #### Python Lint Warning 🖌\`${{ steps.lint-war.outcome }}\`
             #### Python Test ⚙️\`${{ steps.test.outcome }}\`
 
             <details><summary>Show Result</summary>
 
             \`\`\`\n
-            ${process.env.LINT}
+            ${process.env.LINT-ERR}
+            ${process.env.LINT-WAR}
             \`\`\`
 
             \`\`\`\n
