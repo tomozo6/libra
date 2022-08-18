@@ -5,14 +5,14 @@ name = "pypi"
 
 [packages]
 chalice = "*"
-moto = "*"
 
 [dev-packages]
-pytest = "*"
 boto3 = "*"
-freezegun = "*"
-pytest-cov = "*"
 flake8 = "*"
+freezegun = "*"
+moto = "*"
+pytest = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
