@@ -39,3 +39,9 @@ def pay_records_post():
     )
 
     return repo.add_record(record)
+
+
+@app.route('/pay/amount/{payer}', methods=['GET'])
+def pay_amount_by_payer(payer):
+    table = PayTable()
+    return table.get_amount(payer)

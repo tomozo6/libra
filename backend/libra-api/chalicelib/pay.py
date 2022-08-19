@@ -110,7 +110,7 @@ class PayTable():
                 status_code=500
             )
 
-    def get_amounts(self, payer: str) -> Response:
+    def get_amount(self, payer: str) -> Response:
         """支払総額取得
 
         指定された支払者の総額を取得します。
@@ -126,10 +126,10 @@ class PayTable():
         )
 
         items = response['Items']
-        amounts = sum(item.get('Amount', 0) for item in items)
+        amount = sum(item.get('Amount', 0) for item in items)
 
         return Response(
-            body={'Payer': payer, 'Amounts': amounts},
+            body={'Payer': payer, 'Amount': amount},
             headers={'Content-Type': 'application/json'},
             status_code=200
         )

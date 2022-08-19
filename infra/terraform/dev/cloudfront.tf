@@ -51,8 +51,8 @@ resource "aws_cloudfront_distribution" "libra" {
   default_cache_behavior {
     target_origin_id       = aws_s3_bucket.website.bucket
     viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods        = ["HEAD", "GET", "OPTIONS"]
+    cached_methods         = ["HEAD", "GET", "OPTIONS"]
     compress               = true
     min_ttl                = 0
     default_ttl            = 0
@@ -71,8 +71,8 @@ resource "aws_cloudfront_distribution" "libra" {
     target_origin_id       = "apigateway"
     path_pattern           = "api/*"
     viewer_protocol_policy = "redirect-to-https"
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD"]
+    allowed_methods        = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+    cached_methods         = ["HEAD", "GET"]
     compress               = true
     min_ttl                = 0
     default_ttl            = 0

@@ -1,5 +1,5 @@
-resource "aws_dynamodb_table" "libra" {
-  name           = format("%s-%s-dynamodb-table", local.tags.project, local.tags.env)
+resource "aws_dynamodb_table" "pay" {
+  name           = format("%s-%s-pay-dynamodb-table", local.tags.project, local.tags.env)
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
   write_capacity = 1

@@ -56,10 +56,10 @@ class TestPayRepo:
 
     def test_get_amounts_レコードが0件(self, fixture_dynamodb):
         table = PayTable()
-        response = table.get_amounts('tomozo')
+        response = table.get_amount('tomozo')
 
         assert response.status_code == 200
-        assert response.body == {'Payer': 'tomozo', 'Amounts': 0}
+        assert response.body == {'Payer': 'tomozo', 'Amount': 0}
 
     def test_get_amounts_該当レコードが0件(self, fixture_dynamodb):
         """他人のレコードは存在する"""
@@ -67,10 +67,10 @@ class TestPayRepo:
 
         record = PayRecord('taro', 500, 'ハナマサで購入')
         table.add_record(record)
-        response = table.get_amounts('tomozo')
+        response = table.get_amount('tomozo')
 
         assert response.status_code == 200
-        assert response.body == {'Payer': 'tomozo', 'Amounts': 0}
+        assert response.body == {'Payer': 'tomozo', 'Amount': 0}
 
     def test_get_amounts_該当レコードが1件(self, fixture_dynamodb):
         table = PayTable()
@@ -82,10 +82,10 @@ class TestPayRepo:
         table.add_record(record)
 
         # 総額取得
-        response = table.get_amounts('tomozo')
+        response = table.get_amount('tomozo')
 
         assert response.status_code == 200
-        assert response.body == {'Payer': 'tomozo', 'Amounts': 1000}
+        assert response.body == {'Payer': 'tomozo', 'Amount': 1000}
 
     def test_get_amounts_該当レコードが複数件(self, fixture_dynamodb):
         """加算処理ができているかのテスト"""
@@ -100,7 +100,7 @@ class TestPayRepo:
         table.add_record(record3)
 
         # 総額取得
-        response = table.get_amounts('tomozo')
+        response = table.get_amount('tomozo')
 
         assert response.status_code == 200
-        assert response.body == {'Payer': 'tomozo', 'Amounts': 11111}
+        assert response.body == {'Payer': 'tomozo', 'Amount': 11111}
