@@ -10,7 +10,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "tomozo-base-terraform-s3"
-    key    = "tomozo-beta-libra.tfstate"
+    key    = "tomozo-prod-libra.tfstate"
     region = "ap-northeast-1"
   }
 }

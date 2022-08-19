@@ -1,4 +1,4 @@
-name: Python CI
+name: Backend Python Test
 on:
   pull_request:
     branches:
