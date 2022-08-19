@@ -1,4 +1,4 @@
-name: Terrafaorm CI
+name: Terrafaorm Plan for base,beta,prod
 on:
   pull_request:
     branches:

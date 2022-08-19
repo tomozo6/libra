@@ -1,4 +1,4 @@
-name: Terrafaorm CD
+name: Terrafaorm Apply for base,beta
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
       - 'infra/terraform/**'
 
 jobs:
-  terraform-cd:
+  terraform-apply:
     name: Aplly
     runs-on: ubuntu-latest
     permissions:
