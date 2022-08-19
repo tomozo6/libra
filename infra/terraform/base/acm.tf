@@ -32,3 +32,12 @@ resource "aws_acm_certificate_validation" "libra" {
   validation_record_fqdns = [for record in aws_route53_record.libra_acm : record.fqdn]
 }
 
+
+# us-east-1
+resource "aws_acm_certificate" "libra_us-east-1" {
+  provider                  = aws.us-east-1
+  domain_name               = "*.libra.tomozo6.com"
+  subject_alternative_names = []
+  validation_method         = "DNS"
+  tags                      = local.tags
+}
